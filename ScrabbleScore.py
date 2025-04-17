@@ -23,9 +23,34 @@ def scoreWord(word):
 
     return score
 
-print(scoreWord("lovely"))
-
 
 # Note - add your code here if you completed the "Competency" option on the quiz
 def topNWords(length, numWords):
-    print("To do if outlined on quiz")
+    d = {}
+    
+    infile = open("ScrabbleWords.txt", "r")  
+    for word in infile:
+        word = word.strip()
+        score = scoreWord(word)
+        if len(word) == length:
+            if score not in d:
+                d[score] = []
+            d[score].append(word)
+    infile.close()
+    
+    sortLst = []
+    for score, words in d.items():
+        sortLst.append((score, words))
+    sortLst.sort()
+    sortLst.reverse()
+
+    count = 0
+    for score, words in sortLst:
+        for word in words:
+            if count < numWords:
+                print(f"{score}: {word}")
+                count += 1
+            else:
+                break
+
+topNWords(3, 3)
